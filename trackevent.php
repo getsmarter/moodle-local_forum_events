@@ -1,19 +1,19 @@
 <?php
 
 /**
- * Segment
+ * email_events
  * Generates a json array of posts with their likes and thanks in a forum discussion
  *
- * @package   segment
+ * @package   email_events
  * @copyright 2014 Moodle Pty Ltd (http://moodle.com)
  * @author    Mikhail Janowski <mikhail@getsmarter.co.za>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require('../../config.php');
-require_once($CFG->dirroot.'/local/segment/lib.php');
+require_once($CFG->dirroot.'/local/email_events/lib.php');
 
-load_segment();
+load_email_events();
 
 $eventName = required_param('event', PARAM_TEXT);
 $videoName = required_param('video', PARAM_TEXT);

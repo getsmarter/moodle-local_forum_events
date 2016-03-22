@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Segment
+ * email_events
  *
- * @package    local_segment
+ * @package    local_email_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class segment_event {
+class email_events_event {
 
   public static function event_types() {
       return array('0' => 'Identify', '1' => 'Track', '2' => 'Page', '3' => 'Alias');
@@ -32,7 +32,7 @@ class segment_event {
       return array('0' => 'Inactive', '1' => 'Active');
   }
 
-  public static function segment_events($event_name) {
+  public static function email_events_events($event_name) {
     global $DB;
 
     $sql = "
@@ -40,10 +40,10 @@ class segment_event {
         e.id,
         e.event,
         e.name,
-        e.type,
-        e.properties
+        e.email_subject,
+        e.email_body
     FROM
-        {local_segment} e
+        {local_email_events} e
     WHERE
         e.active = ? AND
         e.event = ?
@@ -55,28 +55,28 @@ class segment_event {
   public static function send($type, $user_id, $event_name, $properties) {
     switch ($type) {
       case '0':
-        self::segment_identify($user_id, $properties);
+        self::email_events_identify($user_id, $properties);
         break;
       case '1':
-        self::segment_track($user_id, $event_name, $properties);
+        self::email_events_track($user_id, $event_name, $properties);
         break;
       case '2':
-        self::segment_page($user_id, $event_name, $properties);
+        self::email_events_page($user_id, $event_name, $properties);
         break;
       case '3':
-        self::segment_alias($properties);
+        self::email_events_alias($properties);
         break;
     }
   }
 
-  public static function segment_identify($user_id, $properties) {
+  public static function email_events_identify($user_id, $properties) {
     Analytics::identify(array(
       'userId' => $user_id,
       'traits' => $properties
     ));
   }
 
-  public static function segment_track($user_id, $event_name, $properties) {
+  public static function email_events_track($user_id, $event_name, $properties) {
     Analytics::track(array(
       'userId' => $user_id,
       'event' => $event_name,
@@ -84,7 +84,7 @@ class segment_event {
     ));
   }
 
-  public static function segment_page($user_id, $event_name, $properties) {
+  public static function email_events_page($user_id, $event_name, $properties) {
     global $PAGE;
     $properties['title'] = $PAGE->title;
     $properties['url'] = $PAGE->url->out(true);
@@ -96,7 +96,7 @@ class segment_event {
     ));
   }
 
-  public static function segment_alias($properties) {
+  public static function email_events_alias($properties) {
     // $properties must be an array with "previousId" and "userId"
     Analytics::alias($properties);
   }

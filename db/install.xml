@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/segment/db" VERSION="20160113" COMMENT="XMLDB file for Moodle local/segment"
+<XMLDB PATH="local/email_events/db" VERSION="20160113" COMMENT="XMLDB file for Moodle local/email_events"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_segment" COMMENT="Default comment for local_segment, please edit me">
+    <TABLE NAME="local_email_events" COMMENT="Default comment for local_email_events, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="event" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The full Moodle event name"/>
-        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The event name to use for Segment"/>
-        <FIELD NAME="type" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Event type"/>
-        <FIELD NAME="properties" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON that contains placeholders which will be filled in and then the JSON gets used for the event properties or traits"/>
-        <FIELD NAME="active" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Send events if active"/>
+        <FIELD NAME="name" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="The event name to use for email_events"/>
+        <FIELD NAME="email_subject" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Text for the email subject"/>
+        <FIELD NAME="email_body" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Text for the email body"/>
+        <FIELD NAME="active" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Send email if active"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

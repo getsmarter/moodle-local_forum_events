@@ -15,69 +15,46 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Segment
+ * email_events
  *
- * @package    local_segment
+ * @package    local_email_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 global $PAGE;
-$PAGE->requires->js_call_amd('local_segment/segment', 'init');
+// $PAGE->requires->js_call_amd('local_email_events/email_events', 'init');
+require_once($CFG->dirroot.'/local/email_events/classes/email_events_event.php');
 
-function process_moodle_event(\core\event\base $moodle_event) {
+function email_events_process_moodle_event(\core\event\base $moodle_event) {
   global $DB;
   global $PAGE;
 
-  if(get_config('local_segment', 'enabletracking') == 1) {
+  if(get_config('local_email_events', 'enabletracking') == 1) {
 
-    load_segment();
-
-    $segment_events = segment_event::segment_events($moodle_event->eventname);
-
+    $email_events_events = email_events_event::email_events_events($moodle_event->eventname);
     $user = get_complete_user_data('id', $moodle_event->userid);
-    if (isset($user)) {
-      $user_profile = (object)$user->profile;
-    }
-
-    if (!empty($moodle_event->relateduserid)) {
-      $related_user = get_complete_user_data('id', $moodle_event->relateduserid);
-      $related_user_profile = (object)$related_user->profile;
-    }
 
     $course = $DB->get_record('course', array('id' => $moodle_event->courseid));
     $other = (object)$moodle_event->other;
 
-    foreach ($segment_events as $key => $segment_event) {
+    $roles = get_email_role($moodle_event->courseid);
+    $role = current($roles);
 
-      $properties = eval('return "' . str_replace('"', '\"', $segment_event->properties) . '";');
-      $properties_array = json_decode($properties, true);
+    foreach ($email_events_events as $key => $email_events_event) {
+      $subject = eval('return "' . str_replace('"', '\"', $email_events_event->email_subject) . '";');
+      $body = eval('return "' . str_replace('"', '\"', $email_events_event->email_body) . '";');
+      $bodyhtml = text_to_html($body, null, false, true);
 
-      if (empty($user->email)) {
-        $user_email = $related_user->email;
-      } else {
-        $user_email = $user->email;
-      }
-
-      segment_event::send($segment_event->type, $user_email, $segment_event->name, $properties_array);
-
+      email_to_user($role, $user, $subject, $body, $bodyhtml);
     }
   }
 }
 
-function load_segment() {
-  global $CFG;
-
-  require_once($CFG->dirroot.'/local/segment/classes/segment_event.php');
-  require_once($CFG->dirroot.'/local/segment/analytics-php/lib/Segment.php');
-
-  class_alias('Segment', 'Analytics');
-  $write_key = get_config('local_segment', 'writekey');
-
-  Analytics::init($write_key, array(
-    'consumer'      => 'socket',
-    'debug'         => true,
-    'error_handler' => function ($code, $msg) { error_log($msg); }
-  ));
-
+function get_email_role($course_id) {
+  global $DB;
+  $context = context_course::instance($course_id);
+  $role_id = get_config('local_email_events', 'emailrole');
+  $users = get_role_users($role_id, $context);
+  return $users;
 }

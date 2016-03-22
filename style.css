@@ -1,3 +1,8 @@
 .error_tag{
 	border: 1px solid red !important;
 }
+
+#event_link{
+	text-align: center;
+	margin-bottom: 25px;
+}

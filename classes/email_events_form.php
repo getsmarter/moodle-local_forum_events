@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Segment
+ * email_events
  *
- * @package    local_segment
+ * @package    local_email_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once('segment_event.php');
+require_once('email_events_event.php');
 
-class segment_event_form extends moodleform {
+class email_events_event_form extends moodleform {
     //Add elements to form
     public function definition() {
         global $CFG;
@@ -47,15 +47,16 @@ class segment_event_form extends moodleform {
         $mform->addElement('text', 'name', 'Name');
         $mform->setType('name', PARAM_NOTAGS);
 
-        $mform->addElement('select', 'type', 'Type', segment_event::event_types());
-        $mform->setDefault('type', '1');
-
-        $mform->addElement('select', 'active', 'Status', segment_event::active_options());
+        $mform->addElement('select', 'active', 'Status', email_events_event::active_options());
         $mform->setDefault('active', '1');
 
-        $mform->addElement('textarea', 'properties', 'Properties', 'rows="10" cols="15"');
-        $mform->setType('properties', PARAM_NOTAGS);
-        $mform->setDefault('properties', get_config('local_segment', 'defaultproperties'));
+        $mform->addElement('textarea', 'email_subject', 'Email Subject', 'rows="3" cols="15"');
+        $mform->setType('email_subject', PARAM_NOTAGS);
+        $mform->setDefault('email_subject', get_config('local_email_events', 'defaultproperties_subject'));
+
+        $mform->addElement('textarea', 'email_body', 'Email Body', 'rows="10" cols="15"');
+        $mform->setType('email_body', PARAM_NOTAGS);
+        $mform->setDefault('email_body', get_config('local_email_events', 'defaultproperties_body'));
 
         $this->add_action_buttons(true, 'Save');
 
@@ -72,15 +73,15 @@ class segment_event_form extends moodleform {
             $errors['name'] = 'Name cannot be blank';
         }
 
-        if($data['type'] == '') {
-            $errors['type'] = 'Type must be selected';
-        }
-
         if($data['active'] == '') {
             $errors['active'] = 'Status must be selected';
         }
 
-        if($data['properties'] == '') {
+        if($data['email_body'] == '') {
+            $errors['properties'] = 'Properties cannot be blank';
+        }
+
+        if($data['email_subject'] == '') {
             $errors['properties'] = 'Properties cannot be blank';
         }
 
