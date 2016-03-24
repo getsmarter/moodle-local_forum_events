@@ -79,13 +79,13 @@ if ($mform->is_cancelled()) {
 echo $OUTPUT->header();
 echo $OUTPUT->heading('email_events Event');
 
-echo html_writer::tag('p', 'Choose an event defined within Moodle or a plugin and then edit the Name, Type, Status and Properties you want to send to email_events when that event occurs.');
+echo html_writer::tag('p', 'Choose an event defined within Moodle or a plugin and then edit the Name, Status, Subject and Body you want to send to email_events when that event occurs. For the variables that you can use in the Subject and Body click the link below the selected event');
 
 $eventlist = html_writer::link(new moodle_url('/report/eventlist/index.php'), 'Event List');
 echo html_writer::tag('p', "See the $eventlist for details about all available events.");
 
 $mform->display();
 
-echo html_writer::tag('p', 'The properties field has access to $moodle_event, $course, $user and $user_profile (custom profile fields).', array('class' => 'description'));
+echo html_writer::tag('p', 'The Subject and Body field also has access to $moodle_event, $course, $user and $user_profile (custom profile fields).', array('class' => 'description'));
 
 echo $OUTPUT->footer();
