@@ -30,11 +30,12 @@
 
   module.event_form = function() {
     $('#fitem_id_event #id_event').chosen();
+
     $('#fitem_id_event #id_event').chosen().change(function() {
       if($( "#id_event" )) {
-      $('#event_link').remove()
-      $url = $(location).attr('origin') + "/report/eventlist/eventdetail.php?eventname=" + $( "#id_event" ).val()
-      $('<div id="event_link"> <br> <a href=' + $url + '>Click to see the variables associated with this Event</a></div>').insertBefore('#fitem_id_name');
+        $('#event_link').remove();
+        var url = $(location).attr('origin') + "/report/eventlist/eventdetail.php?eventname=" + $( "#id_event" ).val();
+        $('<div id="event_link"> <br> <a href=' + url + '>Click to see the variables associated with this Event</a></div>').insertBefore('#fitem_id_name');
       }
     });
   };

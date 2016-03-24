@@ -1,19 +1,19 @@
 # email_events
 
-Moodle plugin that hooks into the Moodle Events API and sends the events to a email_events.io project.
+Moodle plugin that hooks into the Moodle Events API and sends the events via email.
 
 It has settings for changing:
 
-* Enabling/disabling sending of events
-* email_events project writekey
-* Default event properties
+* Enabling/disabling emailing of events
+* Default email subject
+* Default email body
+* Email to role
 
 Each event has:
 
 * Moodle event name
-* email_events event name
-* email_events event type
-* email_events event properties
+* email subject
+* email body
 * Active/inactive
 
 
