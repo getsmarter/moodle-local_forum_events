@@ -24,10 +24,6 @@
 
 class email_events_event {
 
-  public static function event_types() {
-      return array('0' => 'Identify', '1' => 'Track', '2' => 'Page', '3' => 'Alias');
-  }
-
   public static function active_options() {
       return array('0' => 'Inactive', '1' => 'Active');
   }
@@ -51,54 +47,4 @@ class email_events_event {
 
     return $DB->get_records_sql($sql, array('1', $event_name));
   }
-
-  public static function send($type, $user_id, $event_name, $properties) {
-    switch ($type) {
-      case '0':
-        self::email_events_identify($user_id, $properties);
-        break;
-      case '1':
-        self::email_events_track($user_id, $event_name, $properties);
-        break;
-      case '2':
-        self::email_events_page($user_id, $event_name, $properties);
-        break;
-      case '3':
-        self::email_events_alias($properties);
-        break;
-    }
-  }
-
-  public static function email_events_identify($user_id, $properties) {
-    Analytics::identify(array(
-      'userId' => $user_id,
-      'traits' => $properties
-    ));
-  }
-
-  public static function email_events_track($user_id, $event_name, $properties) {
-    Analytics::track(array(
-      'userId' => $user_id,
-      'event' => $event_name,
-      'properties' => $properties
-    ));
-  }
-
-  public static function email_events_page($user_id, $event_name, $properties) {
-    global $PAGE;
-    $properties['title'] = $PAGE->title;
-    $properties['url'] = $PAGE->url->out(true);
-    $properties['path'] = $PAGE->url->get_path();
-    Analytics::page(array(
-      'userId' => $user_id,
-      'name' => $event_name,
-      'properties' => $properties
-    ));
-  }
-
-  public static function email_events_alias($properties) {
-    // $properties must be an array with "previousId" and "userId"
-    Analytics::alias($properties);
-  }
-
 }

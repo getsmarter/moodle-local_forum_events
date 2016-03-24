@@ -34,6 +34,14 @@ function email_events_process_moodle_event(\core\event\base $moodle_event) {
 
     $email_events_events = email_events_event::email_events_events($moodle_event->eventname);
     $user = get_complete_user_data('id', $moodle_event->userid);
+    if (isset($user)) {
+      $user_profile = (object)$user->profile;
+    }
+
+    if (!empty($moodle_event->relateduserid)) {
+      $related_user = get_complete_user_data('id', $moodle_event->relateduserid);
+      $related_user_profile = (object)$related_user->profile;
+    }
 
     $course = $DB->get_record('course', array('id' => $moodle_event->courseid));
     $other = (object)$moodle_event->other;
