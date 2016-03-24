@@ -54,7 +54,7 @@ function email_events_process_moodle_event(\core\event\base $moodle_event) {
       $body = eval('return "' . str_replace('"', '\"', $email_events_event->email_body) . '";');
       $bodyhtml = text_to_html($body, null, false, true);
 
-      email_to_user($role, $user, $subject, $body, $bodyhtml);
+      email_to_user($user, $role, $subject, $body, $bodyhtml);
     }
   }
 }
