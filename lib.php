@@ -23,7 +23,6 @@
  */
 
 global $PAGE;
-// $PAGE->requires->js_call_amd('local_email_events/email_events', 'init');
 require_once($CFG->dirroot.'/local/email_events/classes/email_events_event.php');
 
 function email_events_process_moodle_event(\core\event\base $moodle_event) {
