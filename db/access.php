@@ -29,12 +29,12 @@ $capabilities = array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array()
-    ),
+        ),
 
     'local/email_events:manage' => array(
         'riskbitmask' => RISK_CONFIG,
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array()
-    ),
-);
+        ),
+    );

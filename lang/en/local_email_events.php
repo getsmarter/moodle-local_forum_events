@@ -23,3 +23,4 @@
  */
 
 $string['pluginname'] = 'Email events';
+$string['emailevent'] = 'Email events';
