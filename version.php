@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_email_events';  // Full name of the plugin (used for diagnostics).
-$plugin->version   = 2016032201;       // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2016032205;       // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2014041100;       // Requires this Moodle version.
 $plugin->maturity  = MATURITY_STABLE;  // The current plugin maturity level.
 $plugin->release   = '1.0.0';          // The current plugin release.
