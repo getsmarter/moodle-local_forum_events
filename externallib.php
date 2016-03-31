@@ -75,7 +75,6 @@ class sendgrid_webhook_external extends external_api {
             }
 
             $event = \local_email_events\event\email_event::create($data);
-            error_log(print_r($event, 1));
             $event->trigger();
         }
 
