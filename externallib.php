@@ -41,6 +41,7 @@ class sendgrid_webhook_external extends external_api {
     public static $event_name;
     public static function process_sendgrid_events($welcomemessage = 'Sendgrid webhook successful') {
         global $USER;
+        global $DB;
         //Parameter validation
         //REQUIRED
         $params = self::validate_parameters(self::process_sendgrid_events_parameters(),
@@ -51,11 +52,13 @@ class sendgrid_webhook_external extends external_api {
         $context = context_system::instance();
         foreach ($array as $email_event) {
             $event = $email_event->event;
-
             self::$event_name = $email_event->event;
+
+            $userid = $DB->get_field('user', 'id', array('email'=>$email_event->email));
 
             $data = array(
                 'context' => $context,
+                'userid' => $userid,
                 'other' => array(
                     'email' => $email_event->email,
                     'timestamp' => $email_event->timestamp
