@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * email_events
+ * forum_events
  *
- * @package    local_email_events
+ * @package    local_forum_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,31 +25,31 @@
 require_once($CFG->dirroot.'../../../config.php');
 
 require_login();
-require_capability('local/email_events:manage', context_system::instance());
+require_capability('local/forum_events:manage', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title("Delete email_events Event");
-$PAGE->set_url($CFG->wwwroot.'/local/email_events/events/delete.php');
+$PAGE->set_title("Delete forum_events Event");
+$PAGE->set_url($CFG->wwwroot.'/local/forum_events/events/delete.php');
 
 // Set incoming parameters
 $id = required_param('id', PARAM_INT);
 $delete = optional_param('delete', '', PARAM_ALPHANUM);
 
-$event = $DB->get_record('local_email_events', array('id' => $id));
-$indexurl = new moodle_url('/local/email_events/events/index.php');
+$event = $DB->get_record('local_forum_events', array('id' => $id));
+$indexurl = new moodle_url('/local/forum_events/events/index.php');
 
 // Render page
 echo $OUTPUT->header();
-echo $OUTPUT->heading('Delete email_events Event');
+echo $OUTPUT->heading('Delete forum_events Event');
 
 if($event) {
     if ($delete === md5($event->properties)) {
         require_sesskey();
-        $DB->delete_records('local_email_events', array('id' => $id));
+        $DB->delete_records('local_forum_events', array('id' => $id));
         redirect($indexurl);
     } else {
-        $message = "Are you sure you want to delete this email_events event?<br /><br />$event->name<br />$event->event";
-        $deleteurl = new moodle_url('/local/email_events/events/delete.php', array('id' => $event->id, 'delete' => md5($event->properties)));
+        $message = "Are you sure you want to delete this forum_events event?<br /><br />$event->name<br />$event->event";
+        $deleteurl = new moodle_url('/local/forum_events/events/delete.php', array('id' => $event->id, 'delete' => md5($event->properties)));
         echo $OUTPUT->confirm($message, $deleteurl, $indexurl);
     }
 } else {

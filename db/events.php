@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * email_events
+ * forum_events
  *
- * @package    local_email_events
+ * @package    local_forum_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,7 +26,7 @@
 $observers = array (
     array (
         'eventname'     => '*',
-        'callback'      => 'email_events_process_moodle_event',
-        'includefile'   => '/local/email_events/lib.php',
+        'callback'      => 'forum_events_process_moodle_event',
+        'includefile'   => '/local/forum_events/lib.php',
     ),
 );

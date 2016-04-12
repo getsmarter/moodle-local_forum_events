@@ -15,17 +15,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * email_events
+ * forum_events
  *
- * @package    local_email_events
+ * @package    local_forum_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'local_email_events';  // Full name of the plugin (used for diagnostics).
-$plugin->version   = 2016032205;       // The current plugin version (Date: YYYYMMDDXX).
+$plugin->component = 'local_forum_events';  // Full name of the plugin (used for diagnostics).
+$plugin->version   = 2016041205;       // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires  = 2014041100;       // Requires this Moodle version.
 $plugin->maturity  = MATURITY_STABLE;  // The current plugin maturity level.
 $plugin->release   = '1.0.0';          // The current plugin release.
