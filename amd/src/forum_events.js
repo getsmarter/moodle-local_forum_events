@@ -24,7 +24,7 @@
 /**
  * @module local_segment/segment
  */
- define(['jquery', 'local_email_events/chosen_jquery'], function($) {
+ define(['jquery', 'local_forum_events/chosen_jquery'], function($) {
 
   var module = {};
 

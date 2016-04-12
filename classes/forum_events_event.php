@@ -15,12 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * email_events
+ * forum_events
  *
- * @package    local_email_events
+ * @package    local_forum_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Email events';
-$string['emailevent'] = 'Email events';
+class forum_events_event {
+
+  public static function active_options() {
+      return array('0' => 'Inactive', '1' => 'Active');
+  }
+
+  public static function forum_events_events($event_name) {
+    global $DB;
+
+    $sql = "
+    SELECT
+        e.id,
+        e.event,
+        e.name,
+        e.forum_subject,
+        e.forum_body
+    FROM
+        {local_forum_events} e
+    WHERE
+        e.active = ? AND
+        e.event = ?
+    ";
+
+    return $DB->get_records_sql($sql, array('1', $event_name));
+  }
+}

@@ -15,53 +15,61 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * email_events
+ * forum_events
  *
- * @package    local_email_events
+ * @package    local_forum_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $PAGE;
-require_once($CFG->dirroot.'/local/email_events/classes/email_events_event.php');
+require_once($CFG->dirroot.'/local/forum_events/classes/forum_events_event.php');
+require_once ($CFG->dirroot."/mod/forum/lib.php");
 
-function email_events_process_moodle_event(\core\event\base $moodle_event) {
+function forum_events_process_moodle_event(\core\event\base $moodle_event) {
   global $DB;
   global $PAGE;
 
-  if(get_config('local_email_events', 'enabletracking') == 1) {
+  if(get_config('local_forum_events', 'enabletracking') == 1) {
 
-    $email_events_events = email_events_event::email_events_events($moodle_event->eventname);
-    $user = get_complete_user_data('id', $moodle_event->userid);
-    if (isset($user)) {
-      $user_profile = (object)$user->profile;
-    }
-
-    if (!empty($moodle_event->relateduserid)) {
-      $related_user = get_complete_user_data('id', $moodle_event->relateduserid);
-      $related_user_profile = (object)$related_user->profile;
-    }
+    $forum_events_events = forum_events_event::forum_events_events($moodle_event->eventname);
 
     $course = $DB->get_record('course', array('id' => $moodle_event->courseid));
-    $other = (object)$moodle_event->other;
+    foreach ($forum_events_events as $key => $forum_events_event) {
 
-    $roles = get_email_role($moodle_event->courseid);
-    $role = current($roles);
-
-    foreach ($email_events_events as $key => $email_events_event) {
-      $subject = eval('return "' . str_replace('"', '\"', $email_events_event->email_subject) . '";');
-      $body = eval('return "' . str_replace('"', '\"', $email_events_event->email_body) . '";');
-      $bodyhtml = text_to_html($body, null, false, true);
-
-      email_to_user($user, $role, $subject, $body, $bodyhtml);
+      $subject = eval('return "' . str_replace('"', '\"', $forum_events_event->forum_subject) . '";');
+      $body = eval('return "' . str_replace('"', '\"', $forum_events_event->forum_body) . '";');
+      create_general_discussion_forum_post($course->id, $subject, $body);
     }
   }
 }
 
-function get_email_role($course_id) {
+function create_general_discussion_forum_post($courseid, $topic_name, $message) {
+  global $DB;
+  $forum = $DB->get_record('forum', array('course' => $courseid, 'name' => 'General course announcements'));
+
+  $discussion = new stdClass();
+
+  $discussion->course        = $forum->course;
+  $discussion->forum         = $forum->id;
+  $discussion->name          = $topic_name;
+  $discussion->assessed      = $forum->assessed;
+  $discussion->message       = $message;
+
+  $discussion->messageformat = $forum->introformat;
+  $discussion->messagetrust  = trusttext_trusted(context_course::instance($forum->course));
+  $discussion->mailnow       = true;
+  $discussion->groupid       = -1;
+
+  $user = get_role_user_forum_post($courseid);
+  forum_add_discussion($discussion,null,null,$role->id);
+}
+
+function get_role_user_forum_post($course_id) {
   global $DB;
   $context = context_course::instance($course_id);
-  $role_id = get_config('local_email_events', 'emailrole');
+  $role_id = get_config('local_forum_events', 'forumrole');
+
   $users = get_role_users($role_id, $context);
-  return $users;
+  $course_coach = current($users);
+  return $course_coach;
 }

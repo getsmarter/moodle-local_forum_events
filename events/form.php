@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * email_events
+ * forum_events
  *
- * @package    local_email_events
+ * @package    local_forum_events
  * @copyright  2014 GetSmarter {@link http://www.getsmarter.co.za}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,23 +26,23 @@
 require_once($CFG->dirroot.'../../../config.php');
 
 require_login();
-require_capability('local/email_events:manage', context_system::instance());
+require_capability('local/forum_events:manage', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title("Email Event");
-$PAGE->set_url($CFG->wwwroot.'/local/email_events/events/form.php');
-$PAGE->requires->js_call_amd('local_email_events/email_events', 'event_form');
-$PAGE->requires->css('/local/email_events/chosen.css');
-$PAGE->requires->css('/local/email_events/style.css');
+$PAGE->set_title("forum Event");
+$PAGE->set_url($CFG->wwwroot.'/local/forum_events/events/form.php');
+$PAGE->requires->js_call_amd('local_forum_events/forum_events', 'event_form');
+$PAGE->requires->css('/local/forum_events/chosen.css');
+$PAGE->requires->css('/local/forum_events/style.css');
 
 // Set incoming parameters
 $id = optional_param('id', 0, PARAM_INT);
 
 require_once("$CFG->libdir/formslib.php");
-require_once('../classes/email_events_form.php');
+require_once('../classes/forum_events_form.php');
 
-$mform = new email_events_event_form();
-$indexurl = new moodle_url('/local/email_events/events/index.php');
+$mform = new forum_events_event_form();
+$indexurl = new moodle_url('/local/forum_events/events/index.php');
 
 //Form processing and displaying
 if ($mform->is_cancelled()) {
@@ -54,9 +54,9 @@ if ($mform->is_cancelled()) {
 
     // Form submitted - create or update
     if($datafromform->id) {
-        $DB->update_record('local_email_events', $datafromform);
+        $DB->update_record('local_forum_events', $datafromform);
     } else {
-    $id = $DB->insert_record('local_email_events', $datafromform);
+    $id = $DB->insert_record('local_forum_events', $datafromform);
     }
     redirect($indexurl);
 
@@ -64,7 +64,7 @@ if ($mform->is_cancelled()) {
 
     // Form displayed - display empty or populated form
     if($id) {
-        $dataforform = $DB->get_record('local_email_events', array('id' => $id));
+        $dataforform = $DB->get_record('local_forum_events', array('id' => $id));
 
         if($dataforform) {
             $mform->set_data($dataforform);
@@ -77,9 +77,9 @@ if ($mform->is_cancelled()) {
 
 // Render page
 echo $OUTPUT->header();
-echo $OUTPUT->heading('email_events Event');
+echo $OUTPUT->heading('forum_events Event');
 
-echo html_writer::tag('p', 'Choose an event defined within Moodle or a plugin and then edit the Name, Status, Subject and Body you want to send to email_events when that event occurs. For the variables that you can use in the Subject and Body click the link below the selected event');
+echo html_writer::tag('p', 'Choose an event defined within Moodle or a plugin and then edit the Name, Status, Subject and Body you want to send to forum_events when that event occurs. For the variables that you can use in the Subject and Body click the link below the selected event');
 
 $eventlist = html_writer::link(new moodle_url('/report/eventlist/index.php'), 'Event List');
 echo html_writer::tag('p', "See the $eventlist for details about all available events.");
