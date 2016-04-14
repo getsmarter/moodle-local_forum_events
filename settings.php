@@ -41,18 +41,16 @@ $temp->add($setting);
   // Default properties
 $name = 'local_forum_events/defaultproperties_subject';
 $title = 'Default forum Subject';
-$description = 'The default value for the subject of an forum.';
-$default =
-"VLE forum subject";
+$description = 'The default value for the subject of a forum post.';
+$default ="VLE forum subject";
 $setting = new admin_setting_configtextarea($name, $title, $description, $default);
 $temp->add($setting);
 
   // Default properties
 $name = 'local_forum_events/defaultproperties_body';
 $title = 'Default forum Body';
-$description = 'The default value for the body of an forum.';
-$default =
-"VLE forum body";
+$description = 'The default value for the body for a forum post.';
+$default ="VLE forum body";
 $setting = new admin_setting_configtextarea($name, $title, $description, $default);
 $temp->add($setting);
 

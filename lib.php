@@ -61,7 +61,7 @@ function create_general_discussion_forum_post($courseid, $topic_name, $message) 
   $discussion->groupid       = -1;
 
   $user = get_role_user_forum_post($courseid);
-  forum_add_discussion($discussion,null,null,$role->id);
+  forum_add_discussion($discussion,null,null,$user->id);
 }
 
 function get_role_user_forum_post($course_id) {
