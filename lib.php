@@ -34,6 +34,8 @@ function forum_events_process_moodle_event(\core\event\base $moodle_event) {
     $forum_events_events = forum_events_event::forum_events_events($moodle_event->eventname);
 
     $course = $DB->get_record('course', array('id' => $moodle_event->courseid));
+    $other = (object)$moodle_event->other;
+
     foreach ($forum_events_events as $key => $forum_events_event) {
 
       $subject = eval('return "' . str_replace('"', '\"', $forum_events_event->forum_subject) . '";');
