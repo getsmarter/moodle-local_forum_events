@@ -43,7 +43,6 @@ class forum_events_event_form extends moodleform {
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('select', 'event', 'Event', $events, array('class' => 'chosen-select', 'data-placeholder' => 'Choose an event'));
-
         $mform->addElement('text', 'name', 'Name');
         $mform->setType('name', PARAM_NOTAGS);
 

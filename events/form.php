@@ -61,15 +61,14 @@ if ($mform->is_cancelled()) {
     redirect($indexurl);
 
 } else {
-
     // Form displayed - display empty or populated form
     if($id) {
         $dataforform = $DB->get_record('local_forum_events', array('id' => $id));
         if($dataforform) {
-            $mform->set_data($dataforform);
-            var_dump($mform);
+          $dataforform->forum_body = array('text'=>$dataforform->forum_body);
+          $mform->set_data($dataforform);
         } else {
-            throw new dml_exception("A record with id $id does not exist.");
+          throw new dml_exception("A record with id $id does not exist.");
         }
     }
 
