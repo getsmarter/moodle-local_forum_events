@@ -40,6 +40,9 @@ function forum_events_process_moodle_event(\core\event\base $moodle_event) {
 
       $subject = eval('return "' . str_replace('"', '\"', $forum_events_event->forum_subject) . '";');
       $body = build_forum_body($forum_events_event, $other);
+      var_dump('-----------------------------------------------------');
+      var_dump($body);
+      var_dump('-----------------------------------------------------');
       create_general_discussion_forum_post($course->id, $subject, $body);
     }
   }
@@ -67,15 +70,16 @@ function create_general_discussion_forum_post($courseid, $topic_name, $message) 
 }
 
 function build_forum_body($forum_events_event, $other) {
+
   $forum_body = str_replace("{course_coach}", $other->course_coach, $forum_events_event->forum_body);
-  $forum_body = str_replace("{course_coach_email}", $other->course_coach_email, $forum_events_event->forum_body);
-  $forum_body = str_replace("{course_section_name}", $other->course_section_name, $forum_events_event->forum_body);
-  $forum_body = str_replace("{course_coach_first_name}", $other->course_coach_first_name, $forum_events_event->forum_body);
-  $forum_body = str_replace("{student_name}", $other->student_name, $forum_events_event->forum_body);
-  $forum_body = str_replace("{student_username}", $other->student_username, $forum_events_event->forum_body);
-  $forum_body = str_replace("{student_email}", $other->student_email, $forum_events_event->forum_body);
-  $forum_body = str_replace("{student_id}", $other->student_id, $forum_events_event->forum_body);
-  $forum_body = str_replace("{course_section_name}", $other->course_section_name, $forum_events_event->forum_body);
+  $forum_body = str_replace("{course_coach_email}", $other->course_coach_email, $forum_body);
+  $forum_body = str_replace("{course_section_name}", $other->course_section_name, $forum_body);
+  $forum_body = str_replace("{course_coach_first_name}", $other->course_coach_first_name, $forum_body);
+  $forum_body = str_replace("{student_name}", $other->student_name, $forum_body);
+  $forum_body = str_replace("{student_username}", $other->student_username, $forum_body);
+  $forum_body = str_replace("{student_email}", $other->student_email, $forum_body);
+  $forum_body = str_replace("{student_id}", $other->student_id, $forum_body);
+  $forum_body = str_replace("{course_section_name}", $other->course_section_name, $forum_body);
 
   return $forum_body;
 }
