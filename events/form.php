@@ -51,25 +51,24 @@ if ($mform->is_cancelled()) {
     redirect($indexurl);
 
 } else if ($datafromform = $mform->get_data()) {
-
+    $datafromform->forum_body = $datafromform->forum_body['text'];
     // Form submitted - create or update
     if($datafromform->id) {
         $DB->update_record('local_forum_events', $datafromform);
     } else {
-    $id = $DB->insert_record('local_forum_events', $datafromform);
+        $id = $DB->insert_record('local_forum_events', $datafromform);
     }
     redirect($indexurl);
 
 } else {
-
     // Form displayed - display empty or populated form
     if($id) {
         $dataforform = $DB->get_record('local_forum_events', array('id' => $id));
-
         if($dataforform) {
-            $mform->set_data($dataforform);
+          $dataforform->forum_body = array('text'=>$dataforform->forum_body);
+          $mform->set_data($dataforform);
         } else {
-            throw new dml_exception("A record with id $id does not exist.");
+          throw new dml_exception("A record with id $id does not exist.");
         }
     }
 

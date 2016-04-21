@@ -43,7 +43,6 @@ class forum_events_event_form extends moodleform {
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('select', 'event', 'Event', $events, array('class' => 'chosen-select', 'data-placeholder' => 'Choose an event'));
-
         $mform->addElement('text', 'name', 'Name');
         $mform->setType('name', PARAM_NOTAGS);
 
@@ -54,9 +53,9 @@ class forum_events_event_form extends moodleform {
         $mform->setType('forum_subject', PARAM_NOTAGS);
         $mform->setDefault('forum_subject', get_config('local_forum_events', 'defaultproperties_subject'));
 
-        $mform->addElement('textarea', 'forum_body', 'forum Body', 'rows="10" cols="15"');
-        $mform->setType('forum_body', PARAM_NOTAGS);
-        $mform->setDefault('forum_body', get_config('local_forum_events', 'defaultproperties_body'));
+        $mform->addElement('editor', 'forum_body', 'Forum Body');
+        $mform->setType('forum_body', PARAM_RAW);
+        $mform->setDefault('forum_body', array('text' => get_config('local_forum_events', 'defaultproperties_body'),'format' => FORMAT_HTML));
 
         $this->add_action_buttons(true, 'Save');
 
