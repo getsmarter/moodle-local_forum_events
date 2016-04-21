@@ -51,10 +51,10 @@ if ($mform->is_cancelled()) {
     redirect($indexurl);
 
 } else if ($datafromform = $mform->get_data()) {
-
+    $datafromform->email_body = $datafromform->email_body['text'];
     // Form submitted - create or update
     if($datafromform->id) {
-        $DB->update_record('local_email_events', $datafromform);
+      $DB->update_record('local_email_events', $datafromform);
     } else {
     $id = $DB->insert_record('local_email_events', $datafromform);
     }
@@ -67,9 +67,10 @@ if ($mform->is_cancelled()) {
         $dataforform = $DB->get_record('local_email_events', array('id' => $id));
 
         if($dataforform) {
-            $mform->set_data($dataforform);
+          $dataforform->email_body = array('text'=>$dataforform->email_body);
+          $mform->set_data($dataforform);
         } else {
-            throw new dml_exception("A record with id $id does not exist.");
+          throw new dml_exception("A record with id $id does not exist.");
         }
     }
 

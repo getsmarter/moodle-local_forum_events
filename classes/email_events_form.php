@@ -54,9 +54,9 @@ class email_events_event_form extends moodleform {
         $mform->setType('email_subject', PARAM_NOTAGS);
         $mform->setDefault('email_subject', get_config('local_email_events', 'defaultproperties_subject'));
 
-        $mform->addElement('textarea', 'email_body', 'Email Body', 'rows="10" cols="15"');
-        $mform->setType('email_body', PARAM_NOTAGS);
-        $mform->setDefault('email_body', get_config('local_email_events', 'defaultproperties_body'));
+        $mform->addElement('editor', 'email_body', 'Email Body');
+        $mform->setType('email_body', PARAM_RAW);
+        $mform->setDefault('email_body', array('text' => get_config('local_email_events', 'defaultproperties_body'),'format' => FORMAT_HTML));
 
         $this->add_action_buttons(true, 'Save');
 
