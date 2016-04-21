@@ -40,9 +40,6 @@ function forum_events_process_moodle_event(\core\event\base $moodle_event) {
 
       $subject = eval('return "' . str_replace('"', '\"', $forum_events_event->forum_subject) . '";');
       $body = build_forum_body($forum_events_event, $other);
-      var_dump('-----------------------------------------------------');
-      var_dump($body);
-      var_dump('-----------------------------------------------------');
       create_general_discussion_forum_post($course->id, $subject, $body);
     }
   }
