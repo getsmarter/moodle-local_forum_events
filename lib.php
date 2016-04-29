@@ -34,12 +34,12 @@ function forum_events_process_moodle_event(\core\event\base $moodle_event) {
     $forum_events_events = forum_events_event::forum_events_events($moodle_event->eventname);
 
     $course = $DB->get_record('course', array('id' => $moodle_event->courseid));
+    $coursesection = $DB->get_record('course_sections', array('id' => $coursesectionid));
     $other = (object)$moodle_event->other;
 
     foreach ($forum_events_events as $key => $forum_events_event) {
-
-      $subject = eval('return "' . str_replace('"', '\"', $forum_events_event->forum_subject) . '";');
-      $body = build_forum_body($forum_events_event, $other);
+      $subject = build_forum_string($forum_events_event->forum_subject, $course, $coursesection, $other);
+      $body = build_forum_string($forum_events_event->forum_body, $course, $coursesection, $other);
       create_general_discussion_forum_post($course->id, $subject, $body);
     }
   }
@@ -66,19 +66,20 @@ function create_general_discussion_forum_post($courseid, $topic_name, $message) 
   forum_add_discussion($discussion,null,null,$user->id);
 }
 
-function build_forum_body($forum_events_event, $other) {
+function build_forum_string($message, $course, $coursesection, $other) {
 
-  $forum_body = str_replace("{course_coach}", $other->course_coach, $forum_events_event->forum_body);
-  $forum_body = str_replace("{course_coach_email}", $other->course_coach_email, $forum_body);
-  $forum_body = str_replace("{course_section_name}", $other->course_section_name, $forum_body);
-  $forum_body = str_replace("{course_coach_first_name}", $other->course_coach_first_name, $forum_body);
-  $forum_body = str_replace("{student_name}", $other->student_name, $forum_body);
-  $forum_body = str_replace("{student_username}", $other->student_username, $forum_body);
-  $forum_body = str_replace("{student_email}", $other->student_email, $forum_body);
-  $forum_body = str_replace("{student_id}", $other->student_id, $forum_body);
-  $forum_body = str_replace("{course_section_name}", $other->course_section_name, $forum_body);
+  $message = str_replace("{course_coach}", $other->course_coach, $message);
+  $message = str_replace("{course_coach_email}", $other->course_coach_email, $message);
+  $message = str_replace("{course_section_name}", $coursesection->name, $message);
+  $message = str_replace("{course_coach_first_name}", $other->course_coach_first_name, $message);
+  $message = str_replace("{student_name}", $other->student_name, $message);
+  $message = str_replace("{student_username}", $other->student_username, $message);
+  $message = str_replace("{student_email}", $other->student_email, $message);
+  $message = str_replace("{student_id}", $other->student_id, $message);
+  $message = str_replace("{course_start_date}", $course->$startdate, $message);
+  $message = str_replace("{course_fullname}", $course->fullname, $message);
 
-  return $forum_body;
+  return $message;
 }
 
 function get_role_user_forum_post($course_id) {
