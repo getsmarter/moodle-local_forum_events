@@ -76,7 +76,7 @@ function build_forum_string($message, $course, $coursesection, $other) {
   $message = str_replace("{student_username}", $other->student_username, $message);
   $message = str_replace("{student_email}", $other->student_email, $message);
   $message = str_replace("{student_id}", $other->student_id, $message);
-  $message = str_replace("{course_start_date}", $course->$startdate, $message);
+  $message = str_replace("{course_start_date}", $course->startdate, $message);
   $message = str_replace("{course_fullname}", $course->fullname, $message);
 
   return $message;
