@@ -34,7 +34,7 @@ function forum_events_process_moodle_event(\core\event\base $moodle_event) {
     $forum_events_events = forum_events_event::forum_events_events($moodle_event->eventname);
 
     $course = $DB->get_record('course', array('id' => $moodle_event->courseid));
-    $coursesection = $DB->get_record('course_sections', array('id' => $coursesectionid));
+    $coursesection = $DB->get_record('course_sections', array('id' => $moodle_event->objectid));
     $other = (object)$moodle_event->other;
 
     foreach ($forum_events_events as $key => $forum_events_event) {
@@ -76,8 +76,12 @@ function build_forum_string($message, $course, $coursesection, $other) {
   $message = str_replace("{student_username}", $other->student_username, $message);
   $message = str_replace("{student_email}", $other->student_email, $message);
   $message = str_replace("{student_id}", $other->student_id, $message);
-  $message = str_replace("{course_start_date}", $course->$startdate, $message);
+  $message = str_replace("{course_start_date}", $course->startdate, $message);
   $message = str_replace("{course_fullname}", $course->fullname, $message);
+
+  //Final Wrap event
+  $message = str_replace("{final_results}", $other->final_results, $message);
+  $message = str_replace("{final_access}", $other->final_access, $message);
 
   return $message;
 }
