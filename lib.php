@@ -67,21 +67,49 @@ function create_general_discussion_forum_post($courseid, $topic_name, $message) 
 }
 
 function build_forum_string($message, $course, $coursesection, $other) {
+  if(isset($other)){
+    if(isset($other->course_coach)){
+      $message = str_replace("{course_coach}", $other->course_coach, $message);
+    }
+    if(isset($other->course_coach_email)){
+      $message = str_replace("{course_coach_email}", $other->course_coach_email, $message);
+    }
+    if(isset($other->course_coach_first_name)){
+      $message = str_replace("{course_coach_first_name}", $other->course_coach_first_name, $message);
+    }
+    if(isset($other->student_name)){
+      $message = str_replace("{student_name}", $other->student_name, $message);
+    }
+    if(isset($other->student_username)){
+      $message = str_replace("{student_username}", $other->student_username, $message);
+    }
+    if(isset($other->student_email)){
+      $message = str_replace("{student_email}", $other->student_email, $message);
+    }
+    if(isset($other->student_id)){
+      $message = str_replace("{student_id}", $other->student_id, $message);
+    }
+    if(isset($other->final_results)){
+      $message = str_replace("{final_results}", $other->final_results, $message);
+    }
+    if(isset($other->final_access)){
+      $message = str_replace("{final_access}", $other->final_access, $message);
+    }
 
-  $message = str_replace("{course_coach}", $other->course_coach, $message);
-  $message = str_replace("{course_coach_email}", $other->course_coach_email, $message);
-  $message = str_replace("{course_section_name}", $coursesection->name, $message);
-  $message = str_replace("{course_coach_first_name}", $other->course_coach_first_name, $message);
-  $message = str_replace("{student_name}", $other->student_name, $message);
-  $message = str_replace("{student_username}", $other->student_username, $message);
-  $message = str_replace("{student_email}", $other->student_email, $message);
-  $message = str_replace("{student_id}", $other->student_id, $message);
-  $message = str_replace("{course_start_date}", $course->startdate, $message);
-  $message = str_replace("{course_fullname}", $course->fullname, $message);
-
-  //Final Wrap event
-  $message = str_replace("{final_results}", $other->final_results, $message);
-  $message = str_replace("{final_access}", $other->final_access, $message);
+  }
+  if(isset($course)){
+    if(isset($course->startdate)){
+      $message = str_replace("{course_start_date}", date('d/m/Y', $course->startdate), $message);
+    }
+    if(isset($course->fullname)){
+      $message = str_replace("{course_fullname}", $course->fullname, $message);
+    }
+  }
+  if(isset($coursesection)){
+    if(isset($coursesection->name)){
+      $message = str_replace("{course_section_name}", $coursesection->name, $message);
+    }
+  }
 
   return $message;
 }
