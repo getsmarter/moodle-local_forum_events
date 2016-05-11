@@ -55,9 +55,9 @@ $setting = new admin_setting_configtextarea($name, $title, $description, $defaul
 $temp->add($setting);
 
 $name = 'local_forum_events/forumrole';
-$title = 'forum from role';
-$description = 'Select the role who will create the forum';
-$default = 5;
+$title = 'Forum Events Course Coach';
+$description = 'Select the role of the course coach. This role will be the user who creates the forum post and that is used for the {course_coach}, {course_coach_email} etc. placeholders.';
+$default = 100;
 $context = context_course::instance(1); // site wide course context
 $roles = get_assignable_roles($context);
 $setting = new admin_setting_configselect($name, $title, $description, $default, $roles);

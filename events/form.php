@@ -29,7 +29,7 @@ require_login();
 require_capability('local/forum_events:manage', context_system::instance());
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
-$PAGE->set_title("forum Event");
+$PAGE->set_title("Forum Event");
 $PAGE->set_url($CFG->wwwroot.'/local/forum_events/events/form.php');
 $PAGE->requires->js_call_amd('local_forum_events/forum_events', 'event_form');
 $PAGE->requires->css('/local/forum_events/chosen.css');
@@ -85,6 +85,6 @@ echo html_writer::tag('p', "See the $eventlist for details about all available e
 
 $mform->display();
 
-echo html_writer::tag('p', 'The Subject and Body field also has access to $moodle_event, $course, $user and $user_profile (custom profile fields).', array('class' => 'description'));
+echo html_writer::tag('p', 'The Subject and Body field also has access to certain variables. They can access {course_coach}, {course_coach_email}, {course_coach_first_name}, {course_start_date}, {course_fullname}, {course_section_name}, {final_results} and {final_access}. More can be added at request.', array('class' => 'description'));
 
 echo $OUTPUT->footer();
