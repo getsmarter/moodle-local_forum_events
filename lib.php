@@ -93,7 +93,7 @@ function build_forum_string($message, $course, $coursesection, $other, $courseco
 
   if (!empty($course)) {
     if(isset($course->startdate)){
-      $message = str_replace("{course_start_date}", date('d/m/Y', $course->startdate), $message);
+      $message = str_replace("{course_start_date}", date('j F Y', $course->startdate), $message);
     }
     if(isset($course->fullname)){
       $message = str_replace("{course_fullname}", $course->fullname, $message);
